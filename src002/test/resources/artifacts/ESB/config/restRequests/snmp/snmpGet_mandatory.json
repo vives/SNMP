@@ -1,0 +1,9 @@
+{
+  "host": "%s(host)",
+  "port": "%s(port)",
+  "snmpVersion": "%s(snmpVersion)",
+  "oids": "%s(oids)",
+  "community": "%s(community)",
+  "retries": "%s(retries)",
+  "timeout": "%s(timeout)"
+}

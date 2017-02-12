@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~  WSO2 Inc. licenses this file to you under the Apache License,
+ ~  Version 2.0 (the "License"); you may not use this file except
+ ~  in compliance with the License.
+ ~  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~  Unless required by applicable law or agreed to in writing,
+ ~  software distributed under the License is distributed on an
+ ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~  KIND, either express or implied.  See the License for the
+ ~  specific language governing permissions and limitations
+ ~  under the License.
+-->
+
+<proxy xmlns="http://ws.apache.org/ns/synapse"
+       name="snmp"
+       transports="http,https,local"
+       statistics="disable"
+       trace="disable"
+       startOnLoad="true">
+    <target>
+        <inSequence>
+            <property name="host" expression="json-eval($.host)"/>
+            <property name="port" expression="json-eval($.port)"/>
+            <property name="snmpVersion" expression="json-eval($.snmpVersion)"/>
+            <property name="password" expression="json-eval($.password)"/>
+            <property name="community" expression="json-eval($.community)"/>
+            <property name="retries" expression="json-eval($.retries)"/>
+            <property name="timeout" expression="json-eval($.timeout)"/>
+            <property name="updateOids" expression="json-eval($.updateOids)"/>
+            <property name="oids" expression="json-eval($.oids)"/>
+            <property name="transportAction" expression="$trp:Action"/>
+            <snmp.init>
+                <host>{$ctx:host}</host>
+                <port>{$ctx:port}</port>
+                <snmpVersion>{$ctx:snmpVersion}</snmpVersion>
+                <oidValue>{$ctx:oidValue}</oidValue>
+                <community>{$ctx:community}</community>
+                <retries>{$ctx:retries}</retries>
+                <timeout>{$ctx:timeout}</timeout>
+            </snmp.init>
+            <switch source="get-property('transportAction')">
+            <case regex="urn:snmpSet">
+            <snmp.snmpSet>
+                <updateOids>{$ctx:updateOids}</updateOids>
+            </snmp.snmpSet>
+            </case>
+                <case regex="urn:snmpGet">
+                    <snmp.snmpGet>
+                        <oids>{$ctx:oids}</oids>
+                    </snmp.snmpGet>
+                </case>
+            </switch>
+            <respond/>
+        </inSequence>
+    </target>
+    <description/>
+</proxy>

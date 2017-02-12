@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~  WSO2 Inc. licenses this file to you under the Apache License,
+ ~  Version 2.0 (the "License"); you may not use this file except
+ ~  in compliance with the License.
+ ~  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~  Unless required by applicable law or agreed to in writing,
+ ~  software distributed under the License is distributed on an
+ ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~  KIND, either express or implied.  See the License for the
+ ~  specific language governing permissions and limitations
+ ~  under the License.
+-->
+
+<template name="init" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="host" description="Address of the target device."/>
+    <parameter name="port" description="Port number of the target device."/>
+    <parameter name="oidValue"
+               description="JSON array to specify the message to particular oid which will be send to target host."/>
+    <parameter name="snmpVersion"
+               description="SNMP version "/>
+    <parameter name="community" description="Community String"/>
+    <parameter name="retries" description="Retries are the number of times a request is sent when a timeout occurs."/>
+    <parameter name="timeout"
+               description="The timeout is the time interval that an request waits for a response message from an agent."/>
+    <sequence>
+        <property name="host" expression="$func:host"/>
+        <property name="port" expression="$func:port"/>
+        <property name="oidValue" expression="$func:oidValue"/>
+        <property name="snmpVersion" expression="$func:snmpVersion"/>
+        <property name="community" expression="$func:community"/>
+        <property name="retries" expression="$func:retries"/>
+        <property name="timeout" expression="$func:timeout"/>
+        <class name="org.wso2.carbon.esb.connector.SNMPConfig"/>
+    </sequence>
+</template>
