@@ -29,7 +29,6 @@ public class SNMPConstants {
     public static final String TRAP_OIDS = "trapOids";
     public static final String START_TAG = "<result><Response>";
     public static final String END_TAG = "</Response></result>";
-    public static final String MESSAGE_INDEX = "1";
     public static final String COMMA = ",";
     public static final String COMBINER = "/";
     public static final String SNMP = "snmp";

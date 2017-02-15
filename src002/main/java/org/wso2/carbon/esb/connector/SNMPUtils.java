@@ -41,10 +41,10 @@ public class SNMPUtils {
         CommunityTarget target = new CommunityTarget();
         target.setCommunity(new OctetString(community));
         target.setAddress(new UdpAddress(host + SNMPConstants.COMBINER + port));
-        if(StringUtils.isEmpty(snmpVersion)){
+        if(StringUtils.isEmpty(snmpVersion) || snmpVersion.equals("2c")){
             target.setVersion(SnmpConstants.version2c);
-        } else {
-            target.setVersion(Integer.parseInt(snmpVersion));
+        } else if(snmpVersion.equals("1")) {
+            target.setVersion(SnmpConstants.version1);
         }
         if (StringUtils.isEmpty(retries)) {
             target.setRetries(Integer.parseInt(SNMPConstants.DEFAULT_RETRIES));

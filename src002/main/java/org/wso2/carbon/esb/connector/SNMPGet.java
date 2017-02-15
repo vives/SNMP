@@ -20,11 +20,10 @@ package org.wso2.carbon.esb.connector;
 import org.apache.axiom.om.OMElement;
 import org.apache.commons.lang.StringUtils;
 import org.apache.synapse.MessageContext;
-import org.apache.synapse.SynapseException;
 import org.snmp4j.PDU;
 import org.snmp4j.Snmp;
 import org.snmp4j.event.ResponseEvent;
-import org.snmp4j.smi.*;
+import org.snmp4j.smi.Integer32;
 import org.wso2.carbon.connector.core.AbstractConnector;
 import org.wso2.carbon.connector.core.ConnectException;
 import org.wso2.carbon.connector.core.Connector;
@@ -75,14 +74,15 @@ public class SNMPGet extends AbstractConnector implements Connector {
                         element = SNMPUtils.transformMessages(result);
                         SNMPUtils.preparePayload(messageContext, element);
                     } else {
-                        throw new SynapseException("Request Failed: " + "Status = " + errorStatus +
-                                " Index = " + errorIndex + " Status Text = " + errorStatusText);
+                        handleException(
+                                "Request Failed:" + "Status = " + errorStatus + ", Index = " +
+                                errorIndex + ", Status Text = " + errorStatusText, messageContext);
                     }
                 } else {
-                    throw new SynapseException("Response PDU is null.");
+                    handleException("Response PDU is null.",messageContext);
                 }
             } else {
-                throw new SynapseException("Agent Timeout occurred.");
+                handleException("Agent Timeout occurred.",messageContext);
             }
         } catch (IOException e) {
             handleException("Error while processing the SNMPGet: " + e.getMessage(), e, messageContext);

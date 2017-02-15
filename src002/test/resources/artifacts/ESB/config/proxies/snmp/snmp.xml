@@ -39,7 +39,6 @@
                 <host>{$ctx:host}</host>
                 <port>{$ctx:port}</port>
                 <snmpVersion>{$ctx:snmpVersion}</snmpVersion>
-                <oidValue>{$ctx:oidValue}</oidValue>
                 <community>{$ctx:community}</community>
                 <retries>{$ctx:retries}</retries>
                 <timeout>{$ctx:timeout}</timeout>

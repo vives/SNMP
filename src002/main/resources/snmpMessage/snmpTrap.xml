@@ -18,7 +18,7 @@
 -->
 
 <template name="snmpTrap" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="trapOids" description="The OIDs and value"/>
+    <parameter name="trapOids" description="The trap OID."/>
     <sequence>
         <property name="trapOids" expression="$func:trapOids"/>
         <class name="org.wso2.carbon.esb.connector.SNMPTrap"/>

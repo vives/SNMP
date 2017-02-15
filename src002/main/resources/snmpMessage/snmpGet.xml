@@ -18,8 +18,8 @@
 -->
 
 <template name="snmpGet" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="requestId" description="ID of the request"/>
-    <parameter name="oids" description="ID of the request"/>
+    <parameter name="requestId" description="ID of the request."/>
+    <parameter name="oids" description="List of OIDs."/>
     <sequence>
         <property name="requestId" expression="$func:requestId"/>
         <property name="oids" expression="$func:oids"/>

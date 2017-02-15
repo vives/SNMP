@@ -18,22 +18,15 @@
 package org.wso2.carbon.esb.connector;
 
 import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.util.AXIOMUtil;
-import org.apache.axiom.soap.SOAPBody;
 import org.apache.synapse.MessageContext;
-import org.apache.synapse.SynapseException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.snmp4j.CommunityTarget;
 import org.snmp4j.PDU;
 import org.snmp4j.Snmp;
-import org.snmp4j.Target;
 import org.snmp4j.event.ResponseEvent;
-import org.snmp4j.mp.SnmpConstants;
 import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
-import org.snmp4j.smi.UdpAddress;
 import org.snmp4j.smi.VariableBinding;
 import org.wso2.carbon.connector.core.AbstractConnector;
 import org.wso2.carbon.connector.core.ConnectException;
@@ -41,8 +34,6 @@ import org.wso2.carbon.connector.core.Connector;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
-import java.util.Date;
-import java.util.Iterator;
 
 public class SNMPTrap extends AbstractConnector implements Connector {
     private static Snmp snmp;
@@ -57,8 +48,8 @@ public class SNMPTrap extends AbstractConnector implements Connector {
             //Create PDU
             PDU pdu = new PDU();
             // To specify the system up time
-            pdu.add(new VariableBinding(SnmpConstants.sysUpTime,
-                    new OctetString(new Date().toString())));
+//            pdu.add(new VariableBinding(SnmpConstants.sysUpTime,
+//                    new OctetString(new Date().toString())));
             // variable binding for Enterprise Specific objects, Severity (should be defined in MIB
             // file)
             addPDU(trapOids, pdu);
@@ -70,7 +61,10 @@ public class SNMPTrap extends AbstractConnector implements Connector {
                 if (log.isDebugEnabled()) {
                     log.debug("Got response from Agent.");
                 }
+
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   " + response.toString());
                 PDU responsePDU = response.getResponse();
+                System.out.println("##############################3  " + responsePDU.toString());
                 if (responsePDU != null) {
                     int errorStatus = responsePDU.getErrorStatus();
                     int errorIndex = responsePDU.getErrorIndex();
@@ -88,14 +82,15 @@ public class SNMPTrap extends AbstractConnector implements Connector {
                         element = SNMPUtils.transformMessages(result);
                         SNMPUtils.preparePayload(messageContext, element);
                     } else {
-                        throw new SynapseException("Request Failed:" + "Status = " + errorStatus +
-                                " Index=" + errorIndex + " Status Text=" + errorStatusText);
+                        handleException(
+                                "Request Failed:" + "Status = " + errorStatus + ", Index = " +
+                                errorIndex + ", Status Text = " + errorStatusText, messageContext);
                     }
                 } else {
-                    throw new SynapseException("Response PDU is null.");
+                    handleException("Response PDU is null.",messageContext);
                 }
             } else {
-                throw new SynapseException("Agent Timeout occurred.");
+                handleException("Agent Timeout occurred.",messageContext);
             }
         } catch (XMLStreamException e) {
             handleException("Error occur when constructing OMElement" + e.getMessage(), e,
@@ -113,7 +108,7 @@ public class SNMPTrap extends AbstractConnector implements Connector {
     /**
      * This method is capable of handling multiple OIDs
      *
-     * @param oidValues set of OIDs and message pairs
+     * @param oidValues set of OIDs and value pairs
      * @return pdu
      */
     private PDU addPDU(String oidValues, PDU pdu) throws IOException {

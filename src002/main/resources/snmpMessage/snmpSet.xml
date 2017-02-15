@@ -17,7 +17,7 @@
  ~  under the License.
 -->
 <template name="snmpSet" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="updateOids" description="The Oids value and data type "/>
+    <parameter name="updateOids" description="The Oids, value and data type."/>
     <sequence>
         <property name="updateOids" expression="$func:updateOids"/>
         <class name="org.wso2.carbon.esb.connector.SNMPSet"/>

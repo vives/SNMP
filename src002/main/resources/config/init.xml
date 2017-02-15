@@ -19,19 +19,17 @@
 
 <template name="init" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="host" description="Address of the target device."/>
-    <parameter name="port" description="Port number of the target device."/>
-    <parameter name="oidValue"
-               description="JSON array to specify the message to particular oid which will be send to target host."/>
-    <parameter name="snmpVersion"
-               description="SNMP version "/>
-    <parameter name="community" description="Community String"/>
-    <parameter name="retries" description="Retries are the number of times a request is sent when a timeout occurs."/>
+    <parameter name="port" description="The Port number of SNMP."/>
+    <parameter name="snmpVersion" description="The version of the SNMP."/>
+    <parameter name="community" description="The community string that acts as a password."/>
+    <parameter name="retries"
+               description="Retries are the number of times a request is sent when a timeout occurs."/>
     <parameter name="timeout"
-               description="The timeout is the time interval that an request waits for a response message from an agent."/>
+               description="The timeout is the time interval that an request waits for a response
+               message from an agent."/>
     <sequence>
         <property name="host" expression="$func:host"/>
         <property name="port" expression="$func:port"/>
-        <property name="oidValue" expression="$func:oidValue"/>
         <property name="snmpVersion" expression="$func:snmpVersion"/>
         <property name="community" expression="$func:community"/>
         <property name="retries" expression="$func:retries"/>

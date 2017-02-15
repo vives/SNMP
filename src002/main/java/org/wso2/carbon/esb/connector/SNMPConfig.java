@@ -39,7 +39,7 @@ public class SNMPConfig extends AbstractConnector implements Connector {
         try{
             start(messageContext);
         } catch (IOException e) {
-            handleException("Error while initiating the snmp object " + e.getMessage(), e, messageContext);
+            handleException("Error while initiating the snmp " + e.getMessage(), e, messageContext);
         }
     }
 

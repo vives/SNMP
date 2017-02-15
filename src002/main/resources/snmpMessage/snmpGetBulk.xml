@@ -18,7 +18,7 @@
 -->
 
 <template name="snmpGetBulk" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="oids" description="ID of the request"/>
+    <parameter name="oids" description="List of OIDs."/>
     <parameter name="maxRepetition" description="Maximum repetitions of repeatable variable bindings."/>
     <parameter name="nonRepeater" description="Number of non repeater variable bindings."/>
     <sequence>
